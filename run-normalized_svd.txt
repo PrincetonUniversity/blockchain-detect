@@ -1,0 +1,3 @@
+loaded data
+Running grid search for normalized SVD
+Fitting 10 folds for each of 60 candidates, totalling 600 fits
