@@ -70,7 +70,7 @@ Xtrain = dftrain[['sender', 'receiver']].values.astype('int')
 Ytrain = dftrain['transaction'].values.astype('bool')
 Xtest = dftest[['sender', 'receiver']].values.astype('int')
 Ytest = dftest['transaction'].values.astype('bool')
-iX = range(len(Xtrain))
+iX = np.arange(len(Xtrain))
 n_ones = Ytest.sum()
 n_zeros = len(Ytest) - n_ones
 
