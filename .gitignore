@@ -79,3 +79,4 @@ target/
 generated-fv/*.matpaper/*.out
 data
 paper/*.out
+__MACOSX
