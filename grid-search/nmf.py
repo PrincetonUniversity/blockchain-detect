@@ -1,5 +1,11 @@
 from preamble import *
 
+matrix = sys.argv[1]
+ncomp = [int(x) for x in sys.argv[2].split(' ')]
+alpha = [float(x) for x in sys.argv[3].split(' ')]
+l1_ratio = [float(x) for x in sys.argv[4].split(' ')]
+init = sys.argv[5]
+
 def eval_fold(estimator_class, cvfold, param):
     param_key = str(sorted(param.items()))    
     est = estimator_class(**param)
@@ -51,10 +57,16 @@ class NMFPredictor(CachedTrainingMatrixEstimator):
         return (self.W[senders, :] * self.H.transpose()[receivers, :]).sum(axis=1)
            
 grid = {
-    'A': ['counts', 'binary', 'log1p'],
-    'n_components': list(range(1, 21)),
-    'alpha': [0.001, 0.01, 0.1, 1, 10, 100, 1000],
-    'l1_ratio': np.arange(0, 1.01, .1),
-    'init': ['random', 'nndsvd','nndsvda']}
+    'A': [matrix],
+    'n_components': ncomp, 
+    'alpha': alpha,
+    'l1_ratio': l1_ratio, 
+    'init': [init]}
+
+import operator
+from functools import reduce
+
+nitems = reduce(operator.mul, (len(x) for x in grid.values())) 
+print('running grid search on',nitems, 'configs')
 
 cvAUC_broken(NMFPredictor, grid, 'NMF')

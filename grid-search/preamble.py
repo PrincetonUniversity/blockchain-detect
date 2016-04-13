@@ -31,13 +31,13 @@ warnings.filterwarnings('ignore')
         
 # Extract data in df form and as a sparse matrix
 
-dftrain = pd.read_csv('data/txTripletsCounts.txt',
+dftrain = pd.read_csv('../data/txTripletsCounts.txt',
                       header=None,
                       index_col=None,
                       sep=' ',
                       names=['sender','receiver','transaction'])
 
-dftest = pd.read_csv('data/testTriplets.txt',
+dftest = pd.read_csv('../data/testTriplets.txt',
                      header=None,
                      index_col=None,
                      sep=' ',
@@ -126,10 +126,10 @@ class CachedTrainingMatrixEstimator(base.BaseEstimator):
 
 def cvAUC(estimator, grid, name, verbosity=0):
     print('Running grid search for {}'.format(name))
-    gse = GridSearchCV(estimator, grid, n_jobs=nproc, verbose=verbosity, cv=cv)
+    gse = GridSearchCV(estimator, grid, n_jobs=nproc, verbose=verbosity, cv=cv, refit=False)
     t = time.time()
     gse.fit(iX, Ytrain)
     t = int(time.time() - t)
     print('\tran cv grid with best AUC {:.4f} in {} s '.format(gse.best_score_, t))
     print('\tmodel:', gse.best_params_)
-    return gse.best_estimator_
+
